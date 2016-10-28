@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-10-28 五 21:30 -->
+<!-- 2016-10-28 五 21:31 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>用org-mode输出网页浅谈</title>
@@ -285,13 +285,13 @@ for the JavaScript code in this tag.
 新建文件夹org,里面存放了我们的代码.再新建子文件夹css与img,存放css文件和img文件.结构如下:
 </p>
 
-<ul class="org-ul">
-<li>org ::存放org文件
-<ul class="org-ul">
-<li>css ::存放css文件</li>
-<li>img ::存放图形文件</li>
-</ul></li>
-</ul>
+<dl class="org-dl">
+<dt>org</dt><dd>存放org文件
+<dl class="org-dl">
+<dt>css</dt><dd>存放css文件</dd>
+<dt>img</dt><dd>存放图形文件</dd>
+</dl></dd>
+</dl>
 </div>
 </div>
 
@@ -325,12 +325,19 @@ for the JavaScript code in this tag.
 </div>
 
 <p>
-org-notes::用来推送html文件
-org-static::用来推送css文件
-org::用来推送整个工程
+-org-notes :: 用来推送html文件
+</p>
+
+<p>
+-org-static :: 用来推送css文件
+</p>
+
+<p>
+-org :: 用来推送整个工程
 </p>
 </div>
 </div>
+
 
 <div id="outline-container-org069511d" class="outline-3">
 <h3 id="org069511d"><span class="section-number-3">3.3</span> 如何使用</h3>
@@ -376,7 +383,7 @@ M-x org-publish-project RET org-notes RET
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: zqy767</p>
-<p class="date">Created: 2016-10-28 五 21:30</p>
+<p class="date">Created: 2016-10-28 五 21:31</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
