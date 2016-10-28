@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-10-27 四 21:43 -->
+<!-- 2016-10-28 五 21:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title></title>
+<title>emacs的黑科技f11一键推送</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="forandroid" />
+<meta name="author" content="zqy767" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -228,11 +228,112 @@ for the JavaScript code in this tag.
 </script>
 </head>
 <body>
-<div id="content">
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="https://zqy767.github.io"> HOME </a>
+</div><div id="content">
+<h1 class="title">emacs的黑科技f11一键推送</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org62b2f4d">1. 起源</a></li>
+<li><a href="#orga183bc9">2. 基本步骤</a>
+<ul>
+<li><a href="#org0735b56">2.1. 上传函数</a></li>
+<li><a href="#org194008a">2.2. 按键绑定</a></li>
+</ul>
+</li>
+</ul>
 </div>
+</div>
+
+
+<div id="outline-container-org62b2f4d" class="outline-2">
+<h2 id="org62b2f4d"><span class="section-number-2">1</span> 起源</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+当年我读过一篇介绍emacs的软文<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>,其中有一点特别吸引我:
+</p>
+<blockquote>
+<p>
+我的所有网页也是用Emacs 写的, 虽然不是所谓所见所得工具, 但非常 
+快. 一键(甚至不按键, 存盘时自动上 传到服务器, 神不知鬼不觉.) 就可以上传 
+到服务器. 
+</p>
+</blockquote>
+
+<p>
+对于这个我一直非常羡慕.文中作者用了cvs,现在我要尝试上传到github上
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga183bc9" class="outline-2">
+<h2 id="orga183bc9"><span class="section-number-2">2</span> 基本步骤</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+一半来说,分为两部,
+1.写一个上传函数
+2.函数和对应的按键绑定
+</p>
+</div>
+
+<div id="outline-container-org0735b56" class="outline-3">
+<h3 id="org0735b56"><span class="section-number-3">2.1</span> 上传函数</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+基本思想很简单,模拟人工上传到github的作用:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(defun update-github-blog-file ()
+  (interactive)
+  (org-publish-project "org-notes")
+  (cd "~/org/public_html")
+  (shell-command "git add *.html")
+  (shell-command "git commit -m \"update the blog \"")
+  (shell-command "git pull origin master")
+  (shell-command "git push origin master"))
+</pre>
+</div>
+<p>
+直接用shell模拟反而比其他方式快.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org194008a" class="outline-3">
+<h3 id="org194008a"><span class="section-number-3">2.2</span> 按键绑定</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+这一步其实就很简单了:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(global-set-key [f11] 'update-github-blog-file)
+</pre>
+</div>
+
+<p>
+现在,享受吧!
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<a href="http://blog.csdn.net/wdkirchhoff/article/details/41623161">http://blog.csdn.net/wdkirchhoff/article/details/41623161</a>
+</p></div></div>
+
+
+</div>
+</div></div>
 <div id="postamble" class="status">
-<p class="author">Author: forandroid</p>
-<p class="date">Created: 2016-10-27 四 21:43</p>
+<p class="author">Author: zqy767</p>
+<p class="date">Created: 2016-10-28 五 21:59</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
