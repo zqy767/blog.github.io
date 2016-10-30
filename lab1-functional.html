@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-10-30 日 13:18 -->
+<!-- 2016-10-30 日 17:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>函数编程&#x2013;实验一以及其他</title>
@@ -234,10 +234,285 @@ for the JavaScript code in this tag.
  <a accesskey="H" href="https://zqy767.github.io"> HOME </a>
 </div><div id="content">
 <h1 class="title">函数编程&#x2013;实验一以及其他</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgc36ca8c">1. 引子</a></li>
+<li><a href="#orgb8dcfb3">2. 题目</a></li>
+<li><a href="#org7aaf8d2">3. 函数式编程之基本思想</a>
+<ul>
+<li><a href="#orgf433941">3.1. 函数式编程的特性</a>
+<ul>
+<li><a href="#org4a40948">3.1.1. 函数是一等公民</a></li>
+<li><a href="#org7563bb5">3.1.2. 无副作用</a>
+<ul>
+<li><a href="#orge05856b">3.1.2.1. 函数式编程中不许出现全局变量</a></li>
+<li><a href="#org5461c3e">3.1.2.2. 函数式编程中不许修改传入的参数</a></li>
+</ul>
+</li>
+<li><a href="#org3560a69">3.1.3. 所有表达式都由返回值</a></li>
+</ul>
+</li>
+<li><a href="#org16ebc38">3.2. <span class="todo TODO">TODO</span> 函数式编程与面向过程的区别</a></li>
+<li><a href="#org6ac6863">3.3. <span class="todo TODO">TODO</span> 函数式编程与面对对象的区别以及联系</a></li>
+</ul>
+</li>
+<li><a href="#org4d21bd0">4. 函数式编程之自下向上</a>
+<ul>
+<li><a href="#org8d8599b">4.1. 什么是自下向上编程</a></li>
+<li><a href="#org8eeb4d9">4.2. <span class="todo TODO">TODO</span> 滚雪球</a>
+<ul>
+<li><a href="#orgb3374a1">4.2.1. 第一个雪球</a></li>
+<li><a href="#orgdefad4c">4.2.2. <span class="todo TODO">TODO</span> 第二个雪球</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
+</div>
+
+
+
+<div id="outline-container-orgc36ca8c" class="outline-2">
+<h2 id="orgc36ca8c"><span class="section-number-2">1</span> 引子</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+本文会以common lisp为代码基础,对实验一进行分析.本文会很长.所以希望能有一定的耐心读完.读完希望能对您有所收获,
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb8dcfb3" class="outline-2">
+<h2 id="orgb8dcfb3"><span class="section-number-2">2</span> 题目</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+实验一特指哈工大软件工程的实验1.那么具体的题目为:
+</p>
+
+<blockquote>
+<p>
+给定一个表达式,可以对表达式化简,部分求值,求导.
+同时表达式由字母,数字,括号,+,-,*,<sup>等符号组成</sup>.
+</p>
+</blockquote>
+
+<p>
+看起来是一个很简单的编译原理题目.但是仔细考虑会发现题目很有难度.比如如何处理括号是一个难点.如果用传统的自上向下编程,容易走入误区.那么,换个角度用函数式编程的思路以及方法,我们反而会有豁然开朗之感.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7aaf8d2" class="outline-2">
+<h2 id="org7aaf8d2"><span class="section-number-2">3</span> 函数式编程之基本思想</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+首先要回答:什么是函数式编程.这个问题真的是见仁见智.我读过很多书,每本书对函数式编程的定义都不尽相同.但是在这些定义中有他们的共性.在这里我将主要分析共性,并在下面的文章中进行详细阐释.
+</p>
+</div>
+
+<div id="outline-container-orgf433941" class="outline-3">
+<h3 id="orgf433941"><span class="section-number-3">3.1</span> 函数式编程的特性</h3>
+<div class="outline-text-3" id="text-3-1">
+</div><div id="outline-container-org4a40948" class="outline-4">
+<h4 id="org4a40948"><span class="section-number-4">3.1.1</span> 函数是一等公民</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+既然是函数式编程,自然离不开函数.那么什么叫函数是一等公民呢?就是说函数可以像变量一样传递.举一个很经典来自<a id="org764b5a1"></a><sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>的例子:
+</p>
+<blockquote>
+<p>
+我们需要写一个函数，它能够生成累加器，即这个函数接受一个参数n，然后返回另一个函数，后者接受参数i，然后返回n增加（increment）了i后的值。
+</p>
+</blockquote>
+
+<p>
+是的,我们这里要函数的返回值就是函数.在这个情况下,函数和变量完全被当做一致看待了.这是理解函数式编程很重要的一点.平时写代码如果能强迫自己多用这种思维方式去思考,那么编程水平会有很大提高.
+</p>
+
+<p>
+顺便说一句,上面这个问题用java是不可解的.有兴趣的可以加以尝试.但是在common lisp中,解决方案反而是很常见的一种模式:
+</p>
+<div class="org-src-container">
+<pre class="src src-common-lisp">(defun acc (n)
+  (lambda (i) (+ i x)))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7563bb5" class="outline-4">
+<h4 id="org7563bb5"><span class="section-number-4">3.1.2</span> 无副作用</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+无副作用很简单的解释就是,一段代码无论在什么时候,在什么地点,对于相同的输入都会产生相同的结果.并且输入不会被改变.比如下面这段代码:
+</p>
+<div class="org-src-container">
+<pre class="src src-common-lisp">(defun (x) 
+   (+ 1 x))
+</pre>
+</div>
+
+<p>
+很明显的,不论我现在运行这段代码,还是1000万年以后运行这段代码,不论我在我电脑上运行这段代码,还是在实验室运行这段代码.x的数值不会变,返回的数据也不会变.
+</p>
+
+<p>
+那么,我们可以得到非常有趣的两个结论:
+</p>
+</div>
+
+<div id="outline-container-orge05856b" class="outline-5">
+<h5 id="orge05856b"><span class="section-number-5">3.1.2.1</span> 函数式编程中不许出现全局变量</h5>
+<div class="outline-text-5" id="text-3-1-2-1">
+<p>
+因为一旦出现了全局变量,将会导致在不同两次对函数的调用中,相同的输入导致不同的输出.这是函数式编程不能够允许的.下面函数式编程与面对过程编程中还有更深层次的讲解.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5461c3e" class="outline-5">
+<h5 id="org5461c3e"><span class="section-number-5">3.1.2.2</span> 函数式编程中不许修改传入的参数</h5>
+<div class="outline-text-5" id="text-3-1-2-2">
+<p>
+既然数据不许改变,那么c/c++中传递引用还是传值还是传地址就失去了意义.正确的做法是传数据传递的是地址,但是在函数内部不许改变参数.这种情况下代码清晰度才是最高的.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3560a69" class="outline-4">
+<h4 id="org3560a69"><span class="section-number-4">3.1.3</span> 所有表达式都由返回值</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+当你习惯了函数式编程,在看到没有返回值的调用会觉得不舒服.在SICP中,函数式编程是不许使用变量的,一切的数据改变都必须通过返回值来完成.对于我们编程来说可能会有局限性,每个表达式都要油返回值的概念就此建立.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org16ebc38" class="outline-3">
+<h3 id="org16ebc38"><span class="section-number-3">3.2</span> <span class="todo TODO">TODO</span> 函数式编程与面向过程的区别</h3>
+</div>
+
+<div id="outline-container-org6ac6863" class="outline-3">
+<h3 id="org6ac6863"><span class="section-number-3">3.3</span> <span class="todo TODO">TODO</span> 函数式编程与面对对象的区别以及联系</h3>
+</div>
+</div>
+<div id="outline-container-org4d21bd0" class="outline-2">
+<h2 id="org4d21bd0"><span class="section-number-2">4</span> 函数式编程之自下向上</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-org8d8599b" class="outline-3">
+<h3 id="org8d8599b"><span class="section-number-3">4.1</span> 什么是自下向上编程</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+现在工程一般采取的方法,是自上向下分析.可以简单的理解为先有图纸然后建造大楼.而自下向上则可以理解为滚雪球.通过一个个小雪球让雪球越滚越大.两种方法各有利弊.在这里我想重点讲解一下自下向上方法.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8eeb4d9" class="outline-3">
+<h3 id="org8eeb4d9"><span class="section-number-3">4.2</span> <span class="todo TODO">TODO</span> 滚雪球</h3>
+<div class="outline-text-3" id="text-4-2">
+</div><div id="outline-container-orgb3374a1" class="outline-4">
+<h4 id="orgb3374a1"><span class="section-number-4">4.2.1</span> 第一个雪球</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+按照我们这个思路去解决这题目的话,首先我们要建立合适的数据结构.在common lisp中,广义表是最常用的数据结构,在本题中也不例外.对表达式进行分析的话.发现一个表达式基础就是:
+</p>
+<blockquote>
+<p>
+number * symol<sub>1</sub> ^ number<sub>1</sub> &#x2026; symbol<sub>n</sub> ^ number<sub>n</sub>
+</p>
+</blockquote>
+
+<p>
+那么我们广义表也就可以定义为:
+</p>
+<div class="org-src-container">
+<pre class="src src-common-lisp">'(系数 ( sym_1 . num_1 ) ( sym_2 . num_2 ) ...)
+</pre>
+</div>
+
+<p>
+那么我们就可以开始滚第一个雪球&#x2013;对数据结构进行操作的函数了:
+</p>
+<div class="org-src-container">
+<pre class="src src-common-lisp">;;WARNNING!!!
+;;all those macro should be applied to cdrs.
+;; the two ended with car should be deleted later.
+ (defmacro get-^ (x)
+   `(cadar ,x))
+
+ (defmacro get-name (x)
+   `(caar ,x))
+
+ (defmacro get-prenum-car (x)
+   `(car ,x))
+
+ (defmacro get-prenum (x)
+   `(caar ,x))
+
+ (defmacro get-var-list (x)
+   `(cadar ,x))
+
+ (defmacro get-var-list-car (x)
+   `(cadr ,x))
+</pre>
+</div>
+
+<p>
+因为今后为了统一,我们默认采取的是传输cdr的形式.所以在上面没有说明的传输的都是list的cdr数据
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdefad4c" class="outline-4">
+<h4 id="orgdefad4c"><span class="section-number-4">4.2.2</span> <span class="todo TODO">TODO</span> 第二个雪球</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+显然,为了处理系数,以及合并同类项,我们需要第二个雪球:
+</p>
+<div class="org-src-container">
+<pre class="src src-common-lisp">    ;;warning
+    ;;no side affect here
+    ;;all functional programming
+(defun create-var (var exp varlist)
+  (if (null varlist)
+      (list (list var exp))
+      (append1 varlist (list var exp))))
+
+(defun change-exp (var exp varlist)
+  (if (find-variable var varlist)
+      (let ((cpvarlist varlist))
+	(incf (get-^ (find-variable var cpvarlist)) exp)
+	cpvarlist)
+      (create-var var exp varlist)))
+</pre>
+</div>
+
+<p>
+至于注释里面提到的side effect,我们已经在上文陈述过了.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<a href="http://www.cnblogs.com/syeerzy/articles/3548899.html">http://www.cnblogs.com/syeerzy/articles/3548899.html</a>
+</p></div></div>
+
+
+</div>
+</div></div>
 <div id="postamble" class="status">
 <p class="author">Author: zqy767</p>
-<p class="date">Created: 2016-10-30 日 13:18</p>
+<p class="date">Created: 2016-10-30 日 17:12</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
