@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-10-30 日 17:12 -->
+<!-- 2016-10-31 一 15:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>函数编程&#x2013;实验一以及其他</title>
@@ -254,19 +254,24 @@ for the JavaScript code in this tag.
 <li><a href="#org3560a69">3.1.3. 所有表达式都由返回值</a></li>
 </ul>
 </li>
-<li><a href="#org16ebc38">3.2. <span class="todo TODO">TODO</span> 函数式编程与面向过程的区别</a></li>
-<li><a href="#org6ac6863">3.3. <span class="todo TODO">TODO</span> 函数式编程与面对对象的区别以及联系</a></li>
+<li><a href="#org16ebc38">3.2. 函数式编程与面向过程的区别</a>
+<ul>
+<li><a href="#org61f089f">3.2.1. 全局变量</a></li>
+<li><a href="#org6808ebe">3.2.2. 对于函数的理解</a></li>
+</ul>
+</li>
+<li><a href="#org6ac6863">3.3. 函数式编程与面对对象的区别以及联系</a></li>
 </ul>
 </li>
 <li><a href="#org4d21bd0">4. 函数式编程之自下向上</a>
 <ul>
 <li><a href="#org8d8599b">4.1. 什么是自下向上编程</a></li>
-<li><a href="#org8eeb4d9">4.2. <span class="todo TODO">TODO</span> 滚雪球</a>
-<ul>
-<li><a href="#orgb3374a1">4.2.1. 第一个雪球</a></li>
-<li><a href="#orgdefad4c">4.2.2. <span class="todo TODO">TODO</span> 第二个雪球</a></li>
 </ul>
 </li>
+<li><a href="#org77a9c6f">5. <span class="todo TODO">TODO</span> 用滚雪球方式来理解代码</a>
+<ul>
+<li><a href="#orgb3374a1">5.1. 第一个雪球</a></li>
+<li><a href="#orgdefad4c">5.2. <span class="todo TODO">TODO</span> 第二个雪球</a></li>
 </ul>
 </li>
 </ul>
@@ -393,13 +398,46 @@ for the JavaScript code in this tag.
 </div>
 
 <div id="outline-container-org16ebc38" class="outline-3">
-<h3 id="org16ebc38"><span class="section-number-3">3.2</span> <span class="todo TODO">TODO</span> 函数式编程与面向过程的区别</h3>
+<h3 id="org16ebc38"><span class="section-number-3">3.2</span> 函数式编程与面向过程的区别</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+刚一接触函数式编程,可能会分不清函数式编程和面向过程编程之间的关系.并且有可能会以为他们之间区别不大.其实他们之间区别反而比函数式编程和面对对象之间的区别更大.
+</p>
+</div>
+
+<div id="outline-container-org61f089f" class="outline-4">
+<h4 id="org61f089f"><span class="section-number-4">3.2.1</span> 全局变量</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+上文已经说过,全局变量在函数式编程中是被禁止的.其实在严格的函数式编程语言中(比如SICP)连变量都是禁止使用的,而在面对过程中,全局变量是很重要的一个方面.全局变量可以提高效率,但是会降低代码的可读性甚至于正确性.这是我们要尽力避免的.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6808ebe" class="outline-4">
+<h4 id="org6808ebe"><span class="section-number-4">3.2.2</span> 对于函数的理解</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+面对过程把函数(function)理解为了一个过程(procedure).对于他们而言,函数不过是代码模块,而面对对象则是把函数理解为了变量.可传递函数,可赋值.这从起始点就完全不同
+</p>
+</div>
+</div>
 </div>
 
 <div id="outline-container-org6ac6863" class="outline-3">
-<h3 id="org6ac6863"><span class="section-number-3">3.3</span> <span class="todo TODO">TODO</span> 函数式编程与面对对象的区别以及联系</h3>
+<h3 id="org6ac6863"><span class="section-number-3">3.3</span> 函数式编程与面对对象的区别以及联系</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+对于common lisp语言来说,虽然他被"公认"为函数式编程语言(虽然我不这么认为),但是他依然有最先进的面对对象系统clos(这可不是我自己封的).面对对象和函数式编程区别看起来很大,但是在思想上却有着共同之处:把代码封装,从而提高效率以及提高正确率.
+</p>
+
+<p>
+提到函数式编程和面对对象联系,不能不提到闭包这个数据结构:在很多著作中,闭包起到了面对对象中封装代码的作用,并且更加灵活.在学习闭包的时候如果能联系类的定义,一定会事半功倍.
+</p>
 </div>
 </div>
+</div>
+
 <div id="outline-container-org4d21bd0" class="outline-2">
 <h2 id="org4d21bd0"><span class="section-number-2">4</span> 函数式编程之自下向上</h2>
 <div class="outline-text-2" id="text-4">
@@ -407,17 +445,22 @@ for the JavaScript code in this tag.
 <h3 id="org8d8599b"><span class="section-number-3">4.1</span> 什么是自下向上编程</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
-现在工程一般采取的方法,是自上向下分析.可以简单的理解为先有图纸然后建造大楼.而自下向上则可以理解为滚雪球.通过一个个小雪球让雪球越滚越大.两种方法各有利弊.在这里我想重点讲解一下自下向上方法.
+函数式编程和面对对象很大区别在于:面对对象一般自上向下编程,通过接口抽象出代码结构,然后逐步完善.函数式则一般采取子下向上编程.也就是 "the end is up".
+</p>
+
+<p>
+现在工程一般采取的方法,是自上向下分析.可以简单的理解为先有图纸然后建造大楼.而自下向上则可以理解为滚雪球.通过一个个小雪球让雪球越滚越大.两种方法各有利弊.在下面我会用自己的代码,去阐述函数式编程和自下向上方法.
 </p>
 </div>
 </div>
+</div>
 
-<div id="outline-container-org8eeb4d9" class="outline-3">
-<h3 id="org8eeb4d9"><span class="section-number-3">4.2</span> <span class="todo TODO">TODO</span> 滚雪球</h3>
-<div class="outline-text-3" id="text-4-2">
-</div><div id="outline-container-orgb3374a1" class="outline-4">
-<h4 id="orgb3374a1"><span class="section-number-4">4.2.1</span> 第一个雪球</h4>
-<div class="outline-text-4" id="text-4-2-1">
+<div id="outline-container-org77a9c6f" class="outline-2">
+<h2 id="org77a9c6f"><span class="section-number-2">5</span> <span class="todo TODO">TODO</span> 用滚雪球方式来理解代码</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-orgb3374a1" class="outline-3">
+<h3 id="orgb3374a1"><span class="section-number-3">5.1</span> 第一个雪球</h3>
+<div class="outline-text-3" id="text-5-1">
 <p>
 按照我们这个思路去解决这题目的话,首先我们要建立合适的数据结构.在common lisp中,广义表是最常用的数据结构,在本题中也不例外.对表达式进行分析的话.发现一个表达式基础就是:
 </p>
@@ -468,9 +511,9 @@ number * symol<sub>1</sub> ^ number<sub>1</sub> &#x2026; symbol<sub>n</sub> ^ nu
 </div>
 </div>
 
-<div id="outline-container-orgdefad4c" class="outline-4">
-<h4 id="orgdefad4c"><span class="section-number-4">4.2.2</span> <span class="todo TODO">TODO</span> 第二个雪球</h4>
-<div class="outline-text-4" id="text-4-2-2">
+<div id="outline-container-orgdefad4c" class="outline-3">
+<h3 id="orgdefad4c"><span class="section-number-3">5.2</span> <span class="todo TODO">TODO</span> 第二个雪球</h3>
+<div class="outline-text-3" id="text-5-2">
 <p>
 显然,为了处理系数,以及合并同类项,我们需要第二个雪球:
 </p>
@@ -498,7 +541,6 @@ number * symol<sub>1</sub> ^ number<sub>1</sub> &#x2026; symbol<sub>n</sub> ^ nu
 </div>
 </div>
 </div>
-</div>
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
@@ -512,7 +554,7 @@ number * symol<sub>1</sub> ^ number<sub>1</sub> &#x2026; symbol<sub>n</sub> ^ nu
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: zqy767</p>
-<p class="date">Created: 2016-10-30 日 17:12</p>
+<p class="date">Created: 2016-10-31 一 15:40</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
